@@ -1,0 +1,223 @@
+/* SASS/SCSS */
+/* get this online */
+/* git-hub */
+
+html, body {
+	height: 100%;
+	margin: 0px;
+	padding: 0px
+  }
+
+
+body {
+	font-family: "Courier New", Courier, monospace;
+	color: #686868;
+	font-size: 15px;
+	background-color: whitesmoke;
+}
+h4{
+	color: lightgrey;
+}
+/* background */
+
+.LargestContainer{
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(227, 177, 68);
+}
+
+
+/* Left Header  */
+#pac-input{
+  width: 250px;
+  height: 27.5px;
+  font-size: 12px;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: rgba(18, 28, 48, 0.94);
+  border: 0px solid;
+	margin: 10px;
+	border-radius: 2px;
+}
+.leftColumn{
+  position: relative;
+  display: inline-block;
+  float: left;
+  background-color: rgba(10, 34, 61, 0.81);
+  width: 20%;
+  height: 100%;
+  text-align: center;
+	-webkit-box-shadow: 10px 0 5px -2px #888;
+}
+
+.headerInLeftColumn{
+	margin-top: 50px;
+  margin-left: 20px;
+  text-align: left;
+  color: rgb(224, 230, 231);
+	line-height: 30px;
+}
+
+.textInLeftColumn{
+  margin-left: 20px;
+	margin-top: 25px;
+  text-align: left;
+  color: rgb(224, 230, 231);
+  line-height: 20px;
+  margin-right: 15px;
+  font-size: 14px;
+	width: 80%;
+}
+#campList{
+	width: 90%;
+	background-color: rgba(10, 34, 61, 0.81);
+	height: 200px;
+	border: solid 1px lightgrey;
+	border-radius: 2%;
+	margin: 3.5%;
+	border: solid 2px lightgrey;
+	overflow: auto;
+}
+.campListItem{
+	background-color: whitesmoke;
+	width: 100%;
+	height: 50px;
+	border-bottom: solid 1px black;
+}
+#campList li{
+	list-style-type: none;
+}
+
+			/* buttons */
+
+	#campgroundSearchBtn{
+		background-color: rgba(10, 34, 61, 0.81);
+		text-align: center;
+		width: 90%;
+		height: 50px;
+		border: solid 2px lightgrey;
+		color: rgb(224, 230, 231);
+		cursor: pointer;
+		border-radius: 5%;
+		-webkit-box-shadow: 0px 9px 0px rgba(219,31,5,1),
+	}
+	#campgroundSearchBtn:hover{
+	  text-decoration: none;
+	  background: rgba(10, 34, 61, 0.71);
+	}
+
+
+/* Map Canvas */
+.mapContainer{
+  display: inline-block;
+	position: absolute;
+  text-align: center;
+	width:85%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+#map-canvas{
+	width: 100%;
+	height: 100%;
+	border: 0;
+}
+/* Campground Lists */
+#buttonAppend{
+  width: 100%;
+  height: 50px;
+  background: rgba(221, 36, 64, 0.2);
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+#buttonAppend:hover:not(.active){
+  background: rgba(221, 36, 64, 0.7)
+}
+nav ul {
+  list-style-type:none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  max-height: 100%;
+  height: 700px;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+li a{
+  display: block;
+  text-decoration: none;
+  color: black;
+  padding: 50px;
+  border-top: solid 1px;
+  border-bottom: solid 1px;
+
+}
+li{
+  text-align: center;
+}
+li a:hover:not(.active) {
+    background-color: rgba(1, 22, 52, 0.52);
+    color: white;
+}
+.selectedItem{
+  background-color: rgba(19, 63, 103, 0.72);
+}
+/* Search Bar */
+
+#searchstyle{
+  width:350px;
+  height:30px;
+  font-size: 15px;
+  font-family: andalemono, lucida sans unicode;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: rgba(18, 28, 48, 0.94);
+  border: 0px solid;
+  padding-left: 5px;
+  top: -10px;
+}
+
+[placeholder]:focus::-webkit-input-placeholder{
+  transition: opacity 0.5s 0.5s ease;
+  opacity: 0;
+}
+
+.searchbutton{
+  text-align: center;
+  position:relative;
+  left: -5px;
+  background-color: rgba(112, 206, 219, 0.9);
+  font-style: bold;
+  font-size: 15px;
+  border: 5px;
+  border-color: rgba(117, 168, 205);
+  width: 100px;
+  padding-left: 10px;
+  padding-top: 7px;
+  padding-right: 10px;
+  padding-bottom: 8px;
+}
+
+.searchbutton:hover{
+  background-color: #fafafa;
+  color:#207cca;
+}
+
+/*right column*/
+.selected_container{
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 42.5%;
+  height: 100%;
+  background-color: rgba(47, 81, 121, 0.5);
+  float: right;
+}
+.align{
+  float: right;
+  text-align: center;
+  width: 49%;
+  margin-right: 30%;
+  font-size: 25px;
+}
