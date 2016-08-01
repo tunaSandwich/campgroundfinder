@@ -60,7 +60,7 @@ function handleSearchResults(results, status){
         infoWindow.setContent(this.info);
         infoWindow.open(map, this);
       });
-      
+
       // TODO Bind list to map
       // li.innerHTML = "<div class='campListItem'> <strong>" + results[i].name + "</strong>" + "</div>";
       // campList.appendChild(li);
