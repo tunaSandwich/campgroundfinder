@@ -6,6 +6,8 @@ var infoWindow = null;
 // ___________________INITIALIZE___________________
 function initialize(location) {
   console.log("initialize function");
+  // Array that holds campgrounds requested in handleSearchResults
+  var campgrounds = [];
 
   var mapOptions = {
     center: new google.maps.LatLng(37.09024, -100.712891),
@@ -14,73 +16,93 @@ function initialize(location) {
     };
 
 //fire up map
-    map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 
 // Set up markers api
-    var markerOptions = {
-      map: map
-    };
+  var markerOptions = {
+    map: map
+  };
 
-    var marker = new google.maps.Marker(markerOptions);
-    marker.setMap(map);
+  var marker = new google.maps.Marker(markerOptions);
+  marker.setMap(map);
 
 // Set up info window api
-    var infoWindowOptions = {};
-    var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
+  var infoWindowOptions = {};
+  var infoWindow = new google.maps.InfoWindow(infoWindowOptions);
 
-    google.maps.event.addListener(marker,'click',function(){
+  google.maps.event.addListener(marker,'click',function(){
     infoWindow.open(map, marker);
-    });
+  });
 
 
 
-// handling the performSearch types
-function handleSearchResults(results, status){
-  var place;
-  if (results.length === 0){
-    alert("No camping found in the area. If you think this is a mistake, try centering the map in the location you are searching in.");
+  // handling the performSearch types
+  function handleSearchResults(results, status, pagination){
+    var place;
+    console.log(results);
+    for (var i = 0; i < results.length; i ++){
+      place = results[i];
+      // Create filter to get better results
+      var filterResults = place.rating && place.name.toLowerCase().indexOf('rv') === -1 && place.name.toLowerCase().indexOf('camp' || 'site') > -1;
+      if (filterResults){
+        console.log(place.name);
+        //push to campgrounds array
+        campgrounds.push(place);
+      }
+    }
+    //check if more results exist in PLACES request
+    if (status !== google.maps.places.PlacesServiceStatus.OK) {
+      return;
+    }else{
+        renderCampgrounds(campgrounds);
+        if (pagination.hasNextPage) {
+          pagination.nextPage();
+          }
+      }
   }
 
-  for (var i = 0; i < results.length; i ++){
-    var li = document.createElement("LI");
-    var campList = document.getElementById('campList');
+  function renderCampgrounds(campgrounds){
+    campgrounds.forEach(function(arrayItem){
+      photo = arrayItem.photos && arrayItem.photos[0] && arrayItem.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
+      photo_url = photo ? '<img src="' + photo + '"/><br/>' : '';
 
-    place = results[i];
-    if (place.rating && place.name.toLowerCase().indexOf('rv') === -1 && place.name.toLowerCase().indexOf('camp' || 'site') > -1){
-      var photo = place.photos && place.photos[0] && place.photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
-      var photo_url = photo ? '<img src="' + photo + '"/><br/>' : '';
-
-      var marker = new google.maps.Marker({
-          position: place.geometry.location, //change lat and lon
+      marker = new google.maps.Marker({
+          position: arrayItem.geometry.location, //change lat and lon
           map: map,
           info: "<div id='iw-container'> <div class ='iw-title'>" +
-          place.name + "</div>" + photo_url +  "<br/>Camground rating: " + place.rating + "/5 </div>"
+          arrayItem.name + "</div>" + photo_url +  "<br/>Camground rating: " + arrayItem.rating + "/5 </div>"
       });
       google.maps.event.addListener(marker, "click", function(){
         infoWindow.setContent(this.info);
         infoWindow.open(map, this);
       });
 
-      // TODO Bind list to map
-      // li.innerHTML = "<div class='campListItem'> <strong>" + results[i].name + "</strong>" + "</div>";
-      // campList.appendChild(li);
-      // li.addEventListener("click", function(){
-      //   console.log(this.info);
-      // });
-    }
-    console.log(results[i],results[i].name);
+    });
+    console.log(campgrounds);
+
+    // for (var int = 0; int < campgrounds.length; int++) {
+    //   photo = campgrounds[int].photos && campgrounds[int].photos[0] && campgrounds[int].photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
+    //   photo_url = photo ? '<img src="' + photo + '"/><br/>' : '';
+    //
+    //   marker = new google.maps.Marker({
+    //       position: campgrounds[int].geometry.location, //change lat and lon
+    //       map: map,
+    //       info: "<div id='iw-container'> <div class ='iw-title'>" +
+    //       campgrounds[int].name + "</div>" + photo_url +  "<br/>Camground rating: " + campgrounds[int].rating + "/5 </div>"
+    //   });
+      // }
   }
 
-}
-//function to check nearby places
-function performSearch(){
-  var request = {
-    bounds: map.getBounds(),
-    types: ['campground'],
-    rankBy: google.maps.places.RankBy.PROMINENCE,
-  };
-  service.nearbySearch(request, handleSearchResults);
-}
+
+  //function to check nearby places
+  function performSearch(){
+    var request = {
+      bounds: map.getBounds(),
+      types: ['campground'],
+      rankBy: google.maps.places.RankBy.PROMINENCE,
+    };
+    service.nearbySearch(request, handleSearchResults);
+  }
 
 
 
@@ -127,11 +149,9 @@ function performSearch(){
   }
   performSearch();
   });
-
 }
 
 
 $(document).ready(function() {
   initialize();
-
 });
