@@ -12,7 +12,12 @@ function initialize(location) {
   var mapOptions = {
     center: new google.maps.LatLng(37.09024, -100.712891),
     zoom: 4,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+      style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: google.maps.ControlPosition.TOP_LEFT
+}
     };
 
 //fire up map
@@ -80,22 +85,18 @@ function initialize(location) {
     });
     console.log(campgrounds);
 
-    // for (var int = 0; int < campgrounds.length; int++) {
-    //   photo = campgrounds[int].photos && campgrounds[int].photos[0] && campgrounds[int].photos[0].getUrl({'maxWidth': 200, 'maxHeight': 200});
-    //   photo_url = photo ? '<img src="' + photo + '"/><br/>' : '';
-    //
-    //   marker = new google.maps.Marker({
-    //       position: campgrounds[int].geometry.location, //change lat and lon
-    //       map: map,
-    //       info: "<div id='iw-container'> <div class ='iw-title'>" +
-    //       campgrounds[int].name + "</div>" + photo_url +  "<br/>Camground rating: " + campgrounds[int].rating + "/5 </div>"
-    //   });
-      // }
   }
 
 
   //function to check nearby places
   function performSearch(){
+    zoomLevel = map.getZoom();
+    console.log(zoomLevel);
+    if (zoomLevel <= 6) {
+      alert("Zoom in further into a region or type in location in search box");
+      // var alertBox = document.getElementsByClassName('zoomCheck');
+      // document.getElementsByClassName('mapContainer').appendChild(alertBox);
+      }
     var request = {
       bounds: map.getBounds(),
       types: ['campground'],
@@ -114,7 +115,7 @@ function initialize(location) {
   google.maps.event.addListenerOnce(map,'bounds_changed', performSearch);
 */
 //refresh on button click
-  $('#campgroundSearchBtn').click(performSearch);
+  $('#refreshBtn').click(performSearch);
 
 
 //___________________________Autocomplete search______________________
@@ -154,4 +155,15 @@ function initialize(location) {
 
 $(document).ready(function() {
   initialize();
+  $("#questionMark").hover(function(){
+    document.getElementById("infoText").style.display = "block";
+  }, function(){
+    document.getElementById("infoText").style.display = "none";
+  });
+  $("#refreshBtn").hover(function(){
+    document.getElementById("refreshBtn").style.background = "whitesmoke";
+  }, function(){
+    document.getElementById("refreshBtn").style.background = "white";
+  }
+);
 });
